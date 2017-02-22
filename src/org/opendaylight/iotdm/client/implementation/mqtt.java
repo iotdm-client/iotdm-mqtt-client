@@ -1,43 +1,52 @@
-package org.opendaylight.iotdm.client.impl;
+package org.opendaylight.iotdm.client.implementation;
 
-import org.eclipse.jetty.client.HttpClient;
-import org.eclipse.jetty.client.api.ContentResponse;
-import org.eclipse.jetty.client.util.StringContentProvider;
-import org.eclipse.jetty.http.HttpFields;
-import org.onem2m.xml.protocols.PrimitiveContent;
-import org.opendaylight.iotdm.client.Request;
-import org.opendaylight.iotdm.client.Response;
-import org.opendaylight.iotdm.client.api.Client;
-import org.opendaylight.iotdm.client.exception.Onem2mNoOperationError;
-import org.opendaylight.iotdm.client.util.Json;
-import org.opendaylight.iotdm.constant.OneM2M;
+import org.eclipse.paho.client.mqttv3.MqttClient;
+import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
+import org.eclipse.paho.client.mqttv3.MqttException;
+//import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
+//import org.onem2m.xml.protocols.PrimitiveContent;
+//import org.opendaylight.iotdm.client.Request;
+//import org.opendaylight.iotdm.client.Response;
+//import org.opendaylight.iotdm.client.api.Client;
+//import org.opendaylight.iotdm.client.exception.Onem2mNoOperationError;
+//import org.opendaylight.iotdm.client.util.Json;
+//import org.opendaylight.iotdm.constant.OneM2M;
 
 import java.math.BigInteger;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+public class MQTT implements Client {
 
-/**
- * Created by wenxshi on 3/30/15.
- */
-public class Http implements Client {
+    String topic        = "pahodemo/test";
+    String content      = "Message from Sameer";
+    int qos             = 2;
+    String broker       = "tcp://localhost:1883";
+    String clientId     = "JavaSample";
+    MemoryPersistence persistence = new MemoryPersistence();
 
-    //    public static final int PORT = 8989;
-    public static final String CREATE_IN_HTTP = "post";
-    public static final String RETRIEVE_IN_HTTP = "get";
-    public static final String UPDATE_IN_HTTP = "put";
-    public static final String DELETE_IN_HTTP = "delete";
-    public static final String NOTIFY_IN_HTTP = "post";
-
-    public HttpClient httpClient = new HttpClient();
-//    private static Server httpServer=new Server(PORT);
-
+    try {
+        MqttClient mqttClient = new MqttClient(broker, clientId, persistence);
+        MqttConnectOptions connOpts = new MqttConnectOptions();
+        connOpts.setCleanSession(true);
+        System.out.println("Connecting to broker: " + broker);
+        mqttClient.connect(connOpts);
+        System.out.println("Connected");
+    } catch(MqttException me) {
+        System.out.println("reason "+me.getReasonCode());
+        System.out.println("msg "+me.getMessage());
+        System.out.println("loc "+me.getLocalizedMessage());
+        System.out.println("cause "+me.getCause());
+        System.out.println("excep "+me);
+        me.printStackTrace();
+    }
 
     @Override
     public void start() {
         try {
-            httpClient.start();
+            mqttClient.start();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -178,4 +187,3 @@ public class Http implements Client {
             return response;
         }
     }
-}
