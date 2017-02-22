@@ -20,42 +20,38 @@ import java.util.concurrent.TimeUnit;
 
 public class MQTT implements Client {
 
-    String topic        = "pahodemo/test";
-    String content      = "Message from Sameer";
-    int qos             = 2;
-    String broker       = "tcp://localhost:1883";
-    String clientId     = "JavaSample";
+    String topic = "pahodemo/test";
+    String content = "Message from Sameer";
+    int qos = 2;
+    String broker = "tcp://localhost:1883";
+    String clientId = "JavaSample";
     MemoryPersistence persistence = new MemoryPersistence();
-
-    try {
-        MqttClient mqttClient = new MqttClient(broker, clientId, persistence);
-        MqttConnectOptions connOpts = new MqttConnectOptions();
-        connOpts.setCleanSession(true);
-        System.out.println("Connecting to broker: " + broker);
-        mqttClient.connect(connOpts);
-        System.out.println("Connected");
-    } catch(MqttException me) {
-        System.out.println("reason "+me.getReasonCode());
-        System.out.println("msg "+me.getMessage());
-        System.out.println("loc "+me.getLocalizedMessage());
-        System.out.println("cause "+me.getCause());
-        System.out.println("excep "+me);
-        me.printStackTrace();
-    }
 
     @Override
     public void start() {
+
         try {
-            mqttClient.start();
-        } catch (Exception e) {
-            e.printStackTrace();
+            MqttClient mqttClient = new MqttClient(broker, clientId, persistence);
+            MqttConnectOptions connOpts = new MqttConnectOptions();
+            connOpts.setCleanSession(true);
+            System.out.println("Connecting to broker: " + broker);
+            mqttClient.connect(connOpts);
+            System.out.println("Connected");
+        } catch (MqttException me) {
+            System.out.println("reason " + me.getReasonCode());
+            System.out.println("msg " + me.getMessage());
+            System.out.println("loc " + me.getLocalizedMessage());
+            System.out.println("cause " + me.getCause());
+            System.out.println("excep " + me);
+            me.printStackTrace();
         }
+
     }
 
     @Override
     public void stop() {
         try {
-            httpClient.stop();
+            mqttClient.stop();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -187,3 +183,4 @@ public class MQTT implements Client {
             return response;
         }
     }
+}
