@@ -29,7 +29,7 @@ public class MQTT implements Client {
 
     @Override
     public void start() {
-
+        // test comment
         try {
             MqttClient mqttClient = new MqttClient(broker, clientId, persistence);
             MqttConnectOptions connOpts = new MqttConnectOptions();
