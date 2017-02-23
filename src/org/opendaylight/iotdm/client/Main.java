@@ -11,8 +11,6 @@ public class Main {
 
     public static void main(String[] args) {
 
-        // Test Code
-
         System.out.println("Invoking client.java");
         MQTT testMqqt = new MQTT();
         String s = "test string";
