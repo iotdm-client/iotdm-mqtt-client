@@ -78,7 +78,7 @@ public class MQTT implements Client {
 
     }
 
-    public org.eclipse.jetty.client.api.Request buildHttpRequest(Request request) {
+    public org.eclipse.jetty.client.api.Request buildMqttMessage(String topic, String message) {
         org.eclipse.jetty.client.api.Request httpRequest = null;
         if (request == null) return null;
 
