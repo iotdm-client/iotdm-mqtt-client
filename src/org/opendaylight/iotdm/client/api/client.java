@@ -1,7 +1,6 @@
 package org.opendaylight.iotdm.client.api;
 
 import org.opendaylight.iotdm.client.Request;
-import org.opendaylight.iotdm.client.Response;
 
 public interface Client {
     /**

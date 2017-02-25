@@ -6,6 +6,7 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 //import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 //import org.onem2m.xml.protocols.PrimitiveContent;
+import org.opendaylight.iotdm.client.api.Client;
 //import org.opendaylight.iotdm.client.Request;
 //import org.opendaylight.iotdm.client.Response;
 //import org.opendaylight.iotdm.client.api.Client;
@@ -58,7 +59,7 @@ public class MQTT implements Client {
     }
 
     @Override
-    public Response send(Request request) {
+    public Response publish( String topic ) {
 
         org.eclipse.jetty.client.api.Request httpRequest = buildHttpRequest(request);
         ContentResponse contentResponse;
@@ -70,6 +71,11 @@ public class MQTT implements Client {
 
         Response response = new ResponseBuilder(contentResponse).build();
         return response;
+    }
+
+    @Override
+    public subscribe ( String topic ) {
+
     }
 
     public org.eclipse.jetty.client.api.Request buildHttpRequest(Request request) {
